@@ -23,8 +23,18 @@ public class VendedorDaoJDBC implements VendedorDAO {
 
     @Override
     public void insert(Vendedor vendedor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insert'");
+
+        PreparedStatement statement = null;
+
+        // try {
+        //     statement = conn.prepareStatement(
+        //         "INSERT INTO vendedor " +
+        //         "(nome,email,data_aniversario,salario_base,)"
+        //     );
+        // } catch (Exception e) {
+        //     // TODO: handle exception
+        // }
+
     }
 
     @Override
@@ -56,16 +66,9 @@ public class VendedorDaoJDBC implements VendedorDAO {
             result = statement.executeQuery();
             System.err.println(result);
             if (result.next()) {
-                Integer idVendedor = result.getInt("id");
-                String nome = result.getString("nome");
-                String email = result.getString("email");
-                Date dataAniversario = result.getDate("data_aniversario");
-                Double salarioBase = result.getDouble("salario_base");
-                Integer idDepartamento = result.getInt("id_departamento");
-                String nomeDepartamento = result.getString("depNome");
 
-                Departamento departamento = new Departamento(idDepartamento, nomeDepartamento);
-                Vendedor vendedor = new Vendedor(idVendedor, nome, email, dataAniversario, salarioBase, departamento);
+                Departamento departamento = instanciaDepartamento(result);
+                Vendedor vendedor = instanciaVendedor(result, departamento);
 
                 return vendedor;
             }
@@ -77,6 +80,24 @@ public class VendedorDaoJDBC implements VendedorDAO {
             DB.closeResultSet(result);
         }
 
+    }
+
+    private Departamento instanciaDepartamento(ResultSet result) throws SQLException {
+        Departamento departamento = new Departamento();
+        departamento.setId(result.getInt("id_departamento"));
+        departamento.setNome(result.getString("depNome"));
+        return departamento;
+    }
+
+    private Vendedor instanciaVendedor(ResultSet result, Departamento departamento) throws SQLException {
+        Vendedor vendedor = new Vendedor();
+        vendedor.setId(result.getInt("id"));
+        vendedor.setNome(result.getString("nome"));
+        vendedor.setEmail(result.getString("email"));
+        vendedor.setDataAniversario(result.getDate("data_aniversario"));
+        vendedor.setSalarioBase(result.getDouble("salario_base"));
+        vendedor.setDepartamento(departamento);
+        return vendedor;
     }
 
     @Override
