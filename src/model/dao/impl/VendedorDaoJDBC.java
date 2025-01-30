@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 
 import db.DB;
@@ -82,6 +81,12 @@ public class VendedorDaoJDBC implements VendedorDAO {
 
     }
 
+    @Override
+    public List<Vendedor> findAll() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+    }
+    
     private Departamento instanciaDepartamento(ResultSet result) throws SQLException {
         Departamento departamento = new Departamento();
         departamento.setId(result.getInt("id_departamento"));
@@ -99,11 +104,4 @@ public class VendedorDaoJDBC implements VendedorDAO {
         vendedor.setDepartamento(departamento);
         return vendedor;
     }
-
-    @Override
-    public List<Vendedor> findAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-    }
-    
 }
