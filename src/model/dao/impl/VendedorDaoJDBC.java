@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import db.DB;
 import db.DbException;
@@ -84,6 +87,46 @@ public class VendedorDaoJDBC implements VendedorDAO {
     public List<Vendedor> findAll() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+    }
+
+    public List<Vendedor> findByDepartamento(Integer id) {
+        
+        PreparedStatement statement = null;
+        ResultSet result = null;
+
+        try {
+            statement = conn.prepareStatement(
+                "SELECT vendedor.*, departamento.nome as depNome " +
+                "FROM vendedor INNER JOIN departamento " +
+                "ON vendedor.id_departamento = departamento.id " +
+                "WHERE id_departamento = ? " +
+                "ORDER BY nome"
+            );
+            statement.setInt(1, id);
+            result = statement.executeQuery();
+            List<Vendedor> list = new ArrayList<>();
+            Map<Integer, Departamento> mapDep = new HashMap<>();
+            while (result.next()) {
+
+                Departamento dep = mapDep.get(result.getInt("id_departamento"));
+
+                if (dep == null) {
+                    dep = instanciaDepartamento(result);
+                    mapDep.put(dep.getId(), dep);
+                }
+                
+                Vendedor vendedor = instanciaVendedor(result, dep);
+                list.add(vendedor);
+
+            }
+            return list;
+        } catch (SQLException e) {
+            throw new DbException("Error: " + e.getMessage());
+        } finally {
+            DB.closeStatement(statement);
+            DB.closeResultSet(result);
+        }
+
     }
     
     private Departamento instanciaDepartamento(ResultSet result) throws SQLException {

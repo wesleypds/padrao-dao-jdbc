@@ -1,5 +1,7 @@
 package app;
 
+import java.util.List;
+
 import model.dao.DAOFactory;
 import model.dao.VendedorDAO;
 import model.entities.Vendedor;
@@ -15,6 +17,13 @@ public class App {
 
         Vendedor vendedor = vendedorDAO.findById(3);
         System.err.println(vendedor);
+
+        System.out.println();
+        System.err.println("########## TESTE 2: Método findByDepartamento de Vendedor ##########");
+        System.out.println();
+
+        List<Vendedor> vendedorList = vendedorDAO.findByDepartamento(2);
+        vendedorList.forEach(System.out::println);
 
         System.out.println();
 
