@@ -63,7 +63,6 @@ public class VendedorDaoJDBC implements VendedorDAO {
             );
             statement.setInt(1, id);
             result = statement.executeQuery();
-            System.err.println(result);
             if (result.next()) {
 
                 Departamento departamento = instanciaDepartamento(result);
