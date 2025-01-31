@@ -64,8 +64,35 @@ public class VendedorDaoJDBC implements VendedorDAO {
 
     @Override
     public void update(Vendedor vendedor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        
+        PreparedStatement statement = null;
+        ResultSet result = null;
+
+        try {
+            statement = conn.prepareStatement(
+                "UPDATE vendedor " +
+                "SET nome = ?, email = ?, data_aniversario = ?, salario_base = ?, id_departamento = ? " +
+                "WHERE id = ?"
+            );
+            statement.setString(1, vendedor.getNome());
+            statement.setString(2, vendedor.getEmail());
+            statement.setDate(3, new java.sql.Date(vendedor.getDataAniversario().getTime()));
+            statement.setDouble(4, vendedor.getSalarioBase());
+            statement.setInt(5, vendedor.getDepartamento().getId());
+            statement.setInt(6, vendedor.getId());
+            int salvou = statement.executeUpdate();
+            if (salvou > 0) {
+                System.err.println("Objeto Atualizado!");
+            } else {
+                throw new DbException("Erro inesperado! Nenhuma linha foi afetada");
+            }
+        } catch (SQLException e) {
+            throw new DbException("Error: " + e.getMessage());
+        } finally {
+            DB.closeStatement(statement);
+            DB.closeResultSet(result);
+        }
+
     }
 
     @Override

@@ -42,6 +42,13 @@ public class App {
         vendedorDAO.insert(vendedor);
 
         System.out.println();
+        System.err.println("########## TESTE 5: Método update de Vendedor ##########");
+        System.out.println();
+
+        vendedor.setSalarioBase(3500.0);
+        vendedorDAO.update(vendedor);
+
+        System.out.println();
 
     }
 }
