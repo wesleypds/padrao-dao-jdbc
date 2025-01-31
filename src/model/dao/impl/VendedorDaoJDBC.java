@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,15 +28,37 @@ public class VendedorDaoJDBC implements VendedorDAO {
     public void insert(Vendedor vendedor) {
 
         PreparedStatement statement = null;
+        ResultSet result = null;
 
-        // try {
-        //     statement = conn.prepareStatement(
-        //         "INSERT INTO vendedor " +
-        //         "(nome,email,data_aniversario,salario_base,)"
-        //     );
-        // } catch (Exception e) {
-        //     // TODO: handle exception
-        // }
+        try {
+            statement = conn.prepareStatement(
+                "INSERT INTO vendedor " +
+                "(nome,email,data_aniversario,salario_base,id_departamento) " +
+                "VALUES (?,?,?,?,?)",
+                Statement.RETURN_GENERATED_KEYS
+            );
+            statement.setString(1, vendedor.getNome());
+            statement.setString(2, vendedor.getEmail());
+            statement.setDate(3, new java.sql.Date(vendedor.getDataAniversario().getTime()));
+            statement.setDouble(4, vendedor.getSalarioBase());
+            statement.setInt(5, vendedor.getDepartamento().getId());
+            int salvou = statement.executeUpdate();
+            if (salvou > 0) {
+                System.err.println("Objeto Salvo!");
+                result = statement.getGeneratedKeys();
+                while (result.next()) {
+                    int id = result.getInt(1);
+                    vendedor.setId(id);                    
+                }
+            } else {
+                throw new DbException("Erro inesperado! Nenhuma linha foi afetada");
+            }
+        } catch (SQLException e) {
+            throw new DbException("Error: " + e.getMessage());
+        } finally {
+            DB.closeStatement(statement);
+            DB.closeResultSet(result);
+        }
 
     }
 
