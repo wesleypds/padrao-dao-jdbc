@@ -8,7 +8,7 @@ import model.dao.VendedorDAO;
 import model.entities.Departamento;
 import model.entities.Vendedor;
 
-public class App {
+public class VendedorApp {
     public static void main(String[] args) {
 
         VendedorDAO vendedorDAO = DAOFactory.createVendedorDAO();

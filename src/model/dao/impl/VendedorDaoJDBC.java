@@ -67,7 +67,6 @@ public class VendedorDaoJDBC implements VendedorDAO {
     public void update(Vendedor vendedor) {
         
         PreparedStatement statement = null;
-        ResultSet result = null;
 
         try {
             statement = conn.prepareStatement(
@@ -92,7 +91,6 @@ public class VendedorDaoJDBC implements VendedorDAO {
             throw new DbException("Error: " + e.getMessage());
         } finally {
             DB.closeStatement(statement);
-            DB.closeResultSet(result);
         }
 
     }
