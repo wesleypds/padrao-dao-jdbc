@@ -49,6 +49,12 @@ public class App {
         vendedorDAO.update(vendedor);
 
         System.out.println();
+        System.err.println("########## TESTE 6: Método delete de Vendedor ##########");
+        System.out.println();
+
+        vendedorDAO.deleteById(1);
+
+        System.out.println();
 
     }
 }

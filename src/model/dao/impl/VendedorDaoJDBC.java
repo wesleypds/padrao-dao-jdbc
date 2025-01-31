@@ -44,12 +44,13 @@ public class VendedorDaoJDBC implements VendedorDAO {
             statement.setInt(5, vendedor.getDepartamento().getId());
             int salvou = statement.executeUpdate();
             if (salvou > 0) {
-                System.err.println("Objeto Salvo!");
                 result = statement.getGeneratedKeys();
                 while (result.next()) {
                     int id = result.getInt(1);
                     vendedor.setId(id);                    
                 }
+                System.err.println("Objeto Salvo!");
+                System.err.println(vendedor);
             } else {
                 throw new DbException("Erro inesperado! Nenhuma linha foi afetada");
             }
@@ -83,6 +84,7 @@ public class VendedorDaoJDBC implements VendedorDAO {
             int salvou = statement.executeUpdate();
             if (salvou > 0) {
                 System.err.println("Objeto Atualizado!");
+                System.err.println(vendedor);
             } else {
                 throw new DbException("Erro inesperado! Nenhuma linha foi afetada");
             }
@@ -97,8 +99,25 @@ public class VendedorDaoJDBC implements VendedorDAO {
 
     @Override
     public void deleteById(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
+
+        PreparedStatement statement = null;
+
+        try {
+            statement = conn.prepareStatement(
+                "DELETE FROM vendedor " +
+                "WHERE id = ?"
+            );
+            statement.setInt(1, id);
+            int executou = statement.executeUpdate();
+            if (executou > 0) {
+                System.err.println("Vendedor com id = " + id + " excluido.");
+            }
+        } catch (SQLException e) {
+            throw new DbException("Error: " + e.getMessage());
+        } finally {
+            DB.closeStatement(statement);
+        }
+
     }
 
     @Override
