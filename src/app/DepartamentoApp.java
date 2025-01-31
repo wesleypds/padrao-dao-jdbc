@@ -9,23 +9,23 @@ public class DepartamentoApp {
         
         DepartamentoDAO departamentoDAO = DAOFactory.createDepartamentoDAO();
 
-        // System.out.println();
-        // System.err.println("########## TESTE 1: Método insert de Departamento ##########");
-        // System.out.println();
+        System.out.println();
+        System.err.println("########## TESTE 1: Método insert de Departamento ##########");
+        System.out.println();
 
-        // departamentoDAO.insert(new Departamento(null, "Ferramentas"));
+        departamentoDAO.insert(new Departamento(null, "Ferramentas"));
 
-        // System.out.println();
-        // System.err.println("########## TESTE 2: Método update de Departamento ##########");
-        // System.out.println();
+        System.out.println();
+        System.err.println("########## TESTE 2: Método update de Departamento ##########");
+        System.out.println();
 
-        // departamentoDAO.update(new Departamento(2, "Eletrônicos"));
+        departamentoDAO.update(new Departamento(2, "Eletrônicos"));
 
-        // System.out.println();
-        // System.err.println("########## TESTE 3: Método delete de Departamento ##########");
-        // System.out.println();
+        System.out.println();
+        System.err.println("########## TESTE 3: Método delete de Departamento ##########");
+        System.out.println();
 
-        // departamentoDAO.deleteById(6);
+        departamentoDAO.deleteById(6);
 
         System.out.println();
         System.err.println("########## TESTE 4: Método findById de Departamento ##########");
