@@ -26,6 +26,13 @@ public class App {
         vendedorList.forEach(System.out::println);
 
         System.out.println();
+        System.err.println("########## TESTE 3: Método findByDepartamento de Vendedor ##########");
+        System.out.println();
+
+        List<Vendedor> vendedorList2 = vendedorDAO.findAll();
+        vendedorList2.forEach(System.out::println);
+
+        System.out.println();
 
     }
 }
